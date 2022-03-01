@@ -1,0 +1,87 @@
+﻿@model UserProfileViewModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "User Profile";
+}
+<h2 class="h3 mb-3 text-muted text-center fw-bold">User Profile</h2>
+<div class="container">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-sm-8 col-md-6">
+            <form method="post">
+                <div asp-validation-summary="All" class="text-center text-danger"></div>
+                <label asp-for="UserName"></label>
+                <div class="input-group my-2">
+                    <div class="input-group-text">
+                        <span><i class="bi bi-person-square text-secondary"></i></span>
+                    </div>
+                    <input asp-for="UserName" name="UserName" class="form-control" readonly />
+                    <div class="input-group-text" data-bs-placement="bottom" title="Enter Your Username Here">
+                        <span><i class="bi bi-question-circle text-secondary"></i></span>
+                    </div>
+                </div> <br />
+                <label asp-for="Email"></label>
+                <div class="input-group my-2">
+                    <div class="input-group-text">
+                        <span><i class="bi bi-envelope text-secondary"></i></span>
+                    </div>
+                    <input asp-for="Email" name="Email" class="form-control" readonly />
+                    <div class="input-group-text" data-bs-placement="bottom" title="Enter Your Email Here">
+                        <span><i class="bi bi-question-circle text-secondary"></i></span>
+                    </div>
+                </div> <br />
+                <label asp-for="FirstName"></label>
+                <div class="input-group my-2">
+                    <div class="input-group-text">
+                        <span><i class="bi bi-person text-secondary"></i></span>
+                    </div>
+                    <input asp-for="FirstName" name="FirstName" class="form-control" type="text" />
+                    <div class="input-group-text" data-bs-placement="bottom" title="Enter Your First Name Here">
+                        <span><i class="bi bi-question-circle text-secondary"></i></span>
+                    </div>
+                </div>
+                <span class="text-danger" asp-validation-for="FirstName"></span> <br />
+                <label asp-for="LastName"></label>
+                <div class="input-group my-2">
+                    <div class="input-group-text">
+                        <span><i class="bi bi-person text-secondary"></i></span>
+                    </div>
+                    <input asp-for="LastName" name="LastName" class="form-control" type="text" />
+                    <div class="input-group-text" data-bs-placement="bottom" title="Enter Your Last Name Here">
+                        <span><i class="bi bi-question-circle text-secondary"></i></span>
+                    </div>
+                </div>
+                <span class="text-danger" asp-validation-for="LastName"></span> <br />
+                <label asp-for="City"></label>
+                <div class="input-group my-2">
+                    <div class="input-group-text">
+                        <span><i class="bi bi-building text-secondary"></i></span>
+                    </div>
+                    <input asp-for="City" name="City" class="form-control" type="text" />
+                    <div class="input-group-text" data-bs-placement="bottom" title="Enter Your City Here">
+                        <span><i class="bi bi-question-circle text-secondary"></i></span>
+                    </div>
+                </div>
+                <span class="text-danger" asp-validation-for="City"></span> <br />
+                <label asp-for="Profession"></label>
+                <div class="input-group my-2">
+                    <div class="input-group-text">
+                        <span><i class="bi bi-wrench-adjustable text-secondary"></i></span>
+                    </div>
+                    <input asp-for="Profession" name="Profession" class="form-control" type="text" />
+                    <div class="input-group-text" data-bs-placement="bottom" title="Enter Your Profession Here">
+                        <span><i class="bi bi-question-circle text-secondary"></i></span>
+                    </div>
+                </div>
+                <span class="text-danger" asp-validation-for="Profession"></span> <br />
+                <button class="btn btn-success text-center mt-2">Save</button>
+
+            </form>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    @{
+                        <partial name="_ValidationScriptsPartial" /> }
+}

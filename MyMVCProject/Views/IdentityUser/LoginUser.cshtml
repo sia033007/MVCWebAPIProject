@@ -1,0 +1,53 @@
+﻿@model LoginViewModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Login User";
+}
+<h2 class="h3 mb-3 text-muted text-center fw-bold">Login</h2>
+<div class="container">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-sm-8 col-md-6">
+            <form method="post">
+                <div asp-validation-summary="All" class="text-center text-danger"></div>
+                <label asp-for="UserName"></label>
+                <div class="input-group my-2">
+                    <div class="input-group-text">
+                        <span><i class="bi bi-person-square text-secondary"></i></span>
+                    </div>
+                    <input asp-for="UserName" name="UserName" class="form-control" />
+                    <div class="input-group-text" data-bs-placement="bottom" title="Enter Your Username Here">
+                        <span><i class="bi bi-question-circle text-secondary"></i></span>
+                    </div>
+                </div>
+                <span class="text-danger" asp-validation-for="UserName"></span> <br />
+                <label asp-for="Password"></label>
+                <div class="input-group my-2">
+                    <div class="input-group-text">
+                        <span><i class="bi bi-shield-lock-fill text-secondary"></i></span>
+                    </div>
+                    <input type="password" asp-for="Password" name="Password" class="form-control" />
+                    <div class="input-group-text" data-bs-placement="bottom" title="Enter Your Password Here">
+                        <span><i class="bi bi-question-circle text-secondary"></i></span>
+                    </div>
+                </div>
+                <span class="text-danger" asp-validation-for="Password"></span> <br />
+                <div class="form-check mb-3">
+                    <input type="checkbox" asp-for="RememberMe" class="form-check-input" />
+                    <label asp-for="RememberMe" class="form-check-label"></label>
+                </div>
+                <button class="btn btn-primary text-center mt-2">Login</button>
+                <a class="btn btn-link mx-3 " asp-controller="IdentityUser" asp-action="ForgotPassword">Forgot Password</a>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
+

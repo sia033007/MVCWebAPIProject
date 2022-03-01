@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Player>
+@{ 
+    ViewData["title"] = "All Players";
+}
+<style>
+    .container{
+        max-width: 95vw;
+    }
+</style>
+<a asp-action="GetPlayer" class="btn btn-primary">Get Player</a>
+<a asp-action="AddPlayer" class="btn btn-primary">Add Player</a>
+<h2 class="h3 my-5 text-muted text-center fw-bold">A List of All Players</h2>
+<div class="container mb-4" style="overflow:scroll">
+    <div class="row">
+        <div class="col">
+            <table class="table table-striped table-bordered text-center">
+                <thead>
+                    <tr class="bg-secondary text-white">
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Position</th>
+                        <th>Nationality</th>
+                        <th>Update</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var player in Model)
+                    {
+                        <tr>
+                            <td class="bg-dark text-white">@player.Id</td>
+                            <td class="bg-warning">@player.Name</td>
+                            <td class="bg-primary">@player.Position</td>
+                            <td class="bg-info">@player.Nationality</td>
+                            <td>
+                                <a asp-action="UpdatePlayer" asp-route-id="@player.Id">
+                                    <i class="h3 bi bi-pencil-fill"></i>
+                                </a>
+                            </td>
+                            <td>
+                                <form asp-action="DeletePlayer" method="post">
+                                    <input type="hidden" value="@player.Id" name="id" />
+                                    <button><i class="h3 bi bi-x-square-fill"></i></button>
+
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>

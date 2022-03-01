@@ -1,0 +1,57 @@
+﻿@model Player
+@{
+    ViewData["title"] = "Add Player";
+}
+<div class="text-end">
+    <a asp-action="GetAllPlayers" class="btn btn-outline-primary mt-2 w-25">Back</a>
+</div>
+<h2 class="h3 mb-3 text-muted text-center fw-bold">Add Player</h2>
+<form method="post" class="mt-3">
+    <label asp-for="Name"></label>
+    <div class="input-group">
+        <input asp-for="Name" class="form-control" /> <br />
+    </div>
+    <span class="text-danger" asp-validation-for="Name"></span> <br />
+    <label asp-for="Position"></label>
+    <select asp-for="Position" class="form-select">
+        <option selected>Goalkeeper</option>
+        <option>Defender</option>
+        <option>Midfielder</option>
+        <option>Striker</option>
+    </select>
+    <span class="text-danger" asp-validation-for="Position"></span> <br />
+    <label asp-for="Nationality"></label>
+    <div class="input-group">
+        <input asp-for="Nationality" class="form-control" /> <br />
+    </div>
+    <span class="text-danger" asp-validation-for="Nationality"></span> <br />
+    <button class="btn btn-primary mt-2">Add Player</button>
+</form>
+
+@if (Model != null && TempData["success"]!= null)
+{
+    <table class="mt-3 table table-striped table-bordered text-center">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Nationality</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.Id</td>
+                <td class="bg-warning">@Model.Name</td>
+                <td class="bg-primary">@Model.Position</td>
+                <td class="bg-info">@Model.Nationality</td>
+            </tr>
+        </tbody>
+    </table>
+}
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

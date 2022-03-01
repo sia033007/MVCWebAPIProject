@@ -1,0 +1,16 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-target="#dropdownMenu" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Sort By Position
+    </button>
+    <div class="dropdown-menu collapse" id="dropdownMenu">
+        <a asp-controller="Home" asp-action="GetPlayerByPosition" asp-route-positionName="Goalkeeper" class="btn text-dark w-100">Goalkeeper</a>
+        <a asp-controller="Home" asp-action="GetPlayerByPosition" asp-route-positionName="Defender" class="btn text-dark w-100">Defender</a>
+        <a asp-controller="Home" asp-action="GetPlayerByPosition" asp-route-positionName="Midfielder" class="btn text-dark w-100">Midfielder</a>
+        <a asp-controller="Home" asp-action="GetPlayerByPosition" asp-route-positionName="Striker" class="btn text-dark w-100">Striker</a>
+    </div>
+</div>

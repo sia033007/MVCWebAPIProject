@@ -1,0 +1,22 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Email Confirmation";
+}
+@if (TempData["badrequest"] != null)
+{
+    <div asp-validation-summary="All" class="mt-5 text-center text-danger"></div>
+    <div class="text-center text-danger">
+        <p class="display-6 mt-5">Something Went Wrong!</p>
+    </div>
+
+}
+@if (TempData["success"] != null)
+{
+    <div class="mt-5 text-center">
+        <h3 class="display-6 text-success fw-bold">Email Confirmed Successfully</h3> <br />
+        <p class="display-6 mt-5">Now you can login <a asp-controller="IdentityUser" asp-action="LoginUser">here</a></p>
+
+    </div>
+}

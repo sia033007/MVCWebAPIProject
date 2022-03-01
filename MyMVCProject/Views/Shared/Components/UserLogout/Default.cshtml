@@ -1,0 +1,5 @@
+﻿@model User
+<div class="d-inline-flex ms-auto w-75">
+    <h5 class="mx-4 fw-bold mt-2 text-warning">Welcome @Model.UserName</h5>
+    <a asp-controller="User" asp-action="LogOut" class="btn btn-primary m-1">Log Out</a>
+</div>
