@@ -1,7 +1,7 @@
 ﻿@if (User.Identity.IsAuthenticated)
 {
     <form method="post" asp-controller="IdentityUser" asp-action="LogoutUser" class="d-inline-flex">
-        <div class="text-warning fw-bold h5 mt-2 mx-2">Welcome @User.Identity.Name</div>
+        <div class="text-warning h3 mt-2 mx-2" style="font-family:Vijaya">Welcome @User.Identity.Name</div>
         <button type="submit" class="btn btn-primary">Logout</button>
     </form>
 }

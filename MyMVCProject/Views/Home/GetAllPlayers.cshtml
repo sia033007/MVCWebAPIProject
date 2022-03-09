@@ -9,7 +9,7 @@
 </style>
 <a asp-action="GetPlayer" class="btn btn-primary">Get Player</a>
 <a asp-action="AddPlayer" class="btn btn-primary">Add Player</a>
-<h2 class="h3 my-5 text-muted text-center fw-bold">A List of All Players</h2>
+<h2 class="h3 my-5 text-center" style="font-family:Calibri">A List of All Players</h2>
 <div class="container mb-4" style="overflow:scroll">
     <div class="row">
         <div class="col">
@@ -38,11 +38,29 @@
                                 </a>
                             </td>
                             <td>
-                                <form asp-action="DeletePlayer" method="post">
-                                    <input type="hidden" value="@player.Id" name="id" />
-                                    <button><i class="h3 bi bi-x-square-fill"></i></button>
+                                <button type="button" data-bs-toggle="modal" data-bs-target="#@player.Name">
+                                    <i class="h3 bi bi-x-square-fill"></i>
+                                </button>
 
-                                </form>
+                                <div class="modal fade" id="@player.Name" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="font-family:Vijaya;font-size:large">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p class="display-6">Are you sure?</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <form method="post" asp-action="DeletePlayer">
+                                                    <a class="btn btn-danger ms-2" data-bs-dismiss="modal">Close</a>
+                                                    <input type="hidden" value="@player.Id" name="id" />
+                                                    <button type="submit" class="btn btn-success mx-2">Yes</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                     }

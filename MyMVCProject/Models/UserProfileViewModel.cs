@@ -10,18 +10,19 @@ namespace MyMVCProject.Models
     {
         [Required]
         [MaxLength(50)]
+        [Display(Name ="Username")]
         public string UserName { get; set; }
         [Required]
         [EmailAddress]
-        [Display(Name ="Your email")]
+        [Display(Name ="Your Email")]
         public string Email { get; set; }
-        [Display(Name = "Your first name (optional)")]
+        [Display(Name = "Your First Name (optional)")]
         public string FirstName { get; set; }
-        [Display(Name = "Your last name (optional)")]
+        [Display(Name = "Your Last Name (optional)")]
         public string LastName { get; set; }
-        [Display(Name = "Your city (optional)")]
+        [Display(Name = "Your City (optional)")]
         public string City { get; set; }
-        [Display(Name = "Your profession (optional)")]
+        [Display(Name = "Your Profession (optional)")]
         public string Profession { get; set; }
     }
 }
