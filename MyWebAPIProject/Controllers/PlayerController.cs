@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 using MyWebAPIProject.Model;
 using MyWebAPIProject.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MyWebAPIProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PlayerController : ControllerBase
     {
         private readonly IPlayerRepository _playerRepository;

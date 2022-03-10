@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MyMVCProject.Models;
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 
@@ -23,18 +25,47 @@ namespace MyMVCProject.Controllers
             _logger = logger;
             _clientFactory = clientFactory;
         }
-
+        public async Task<JwToken> CreateToken()
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:42045/weatherforecast");
+            var client = _clientFactory.CreateClient();
+            HttpResponseMessage response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
+            response.EnsureSuccessStatusCode();
+            var token = await response.Content.ReadAsStringAsync();
+            HttpContext.Session.SetString("JwToken", token);
+            return JsonConvert.DeserializeObject<JwToken>(token);
+        }
+        public async Task<JwToken> GetToken()
+        {
+            JwToken token = null;
+            var strToken = HttpContext.Session.GetString("JwToken");
+            if(string.IsNullOrWhiteSpace(strToken))
+            {
+                token = await CreateToken();
+            }
+            else
+            {
+                token = JsonConvert.DeserializeObject<JwToken>(strToken);
+            }
+            if(token == null || string.IsNullOrWhiteSpace(token.Token) || token.ExpireAt <= DateTime.UtcNow)
+            {
+                token = await CreateToken();
+            }
+            return token;
+        }
         public IActionResult Index()
         {
             return View();
         }
         public async Task<IActionResult> GetAllPlayers()
         {
+            JwToken token = await GetToken();
             List<Player> players = new List<Player>();
             //var client = _clientFactory.CreateClient("MyClient");
             //players = await client.GetFromJsonAsync<List<Player>>("player");
             var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:42045/api/player");
             var client = _clientFactory.CreateClient();
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.Token);
             HttpResponseMessage response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
             if(response.StatusCode == System.Net.HttpStatusCode.OK)
             {
@@ -47,9 +78,11 @@ namespace MyMVCProject.Controllers
         [HttpPost]
         public async Task<IActionResult> GetPlayer(int id)
         {
+            JwToken token = await GetToken();
             Player player = new Player();
             var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:42045/api/player/" + id);
             var client = _clientFactory.CreateClient();
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.Token);
             HttpResponseMessage response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
             if(response.StatusCode == System.Net.HttpStatusCode.OK)
             {
@@ -68,6 +101,7 @@ namespace MyMVCProject.Controllers
         [HttpPost]
         public async Task<IActionResult> AddPlayer(Player player)
         {
+            JwToken token = await GetToken();
             //var client = _clientFactory.CreateClient("MyClient");
             //var response = await client.PostAsJsonAsync("player", player);
             var request = new HttpRequestMessage(HttpMethod.Post, "http://localhost:42045/api/player/");
@@ -81,6 +115,7 @@ namespace MyMVCProject.Controllers
                 return BadRequest();
             }
             var client = _clientFactory.CreateClient();
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.Token);
             HttpResponseMessage response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
             if(response.StatusCode == System.Net.HttpStatusCode.Created)
             {
@@ -98,8 +133,10 @@ namespace MyMVCProject.Controllers
         [HttpPost]
         public async Task<IActionResult> DeletePlayer(int id)
         {
+            JwToken token = await GetToken();
             var request = new HttpRequestMessage(HttpMethod.Delete, "http://localhost:42045/api/player/" + id);
             var client = _clientFactory.CreateClient();
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.Token);
             HttpResponseMessage response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
             if(response.StatusCode == System.Net.HttpStatusCode.NoContent)
             {
@@ -114,9 +151,11 @@ namespace MyMVCProject.Controllers
         }
         public async Task<IActionResult> UpdatePlayer(int id)
         {
+            JwToken token = await GetToken();
             Player player = new Player();
             var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:42045/api/player/" + id);
             var client = _clientFactory.CreateClient();
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.Token);
             HttpResponseMessage response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
             if(response.StatusCode == System.Net.HttpStatusCode.OK)
             {
@@ -129,6 +168,7 @@ namespace MyMVCProject.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdatePlayer(Player player)
         {
+            JwToken token = await GetToken();
             var request = new HttpRequestMessage(HttpMethod.Patch, "http://localhost:42045/api/player/" + player.Id);
             if(player != null)
             {
@@ -137,6 +177,7 @@ namespace MyMVCProject.Controllers
 
             }
             var client = _clientFactory.CreateClient();
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.Token);
             HttpResponseMessage response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
             if(response.StatusCode == System.Net.HttpStatusCode.OK)
             {
@@ -153,9 +194,11 @@ namespace MyMVCProject.Controllers
         }
         public async Task<IActionResult> GetPlayerByPosition(string positionName)
         {
+            JwToken token = await GetToken();
             List<Player> players = new List<Player>();
             var request = new HttpRequestMessage(HttpMethod.Get, "http://localhost:42045/api/player/" + positionName);
             var client = _clientFactory.CreateClient();
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token.Token);
             HttpResponseMessage response = await client.SendAsync(request , HttpCompletionOption.ResponseHeadersRead);
             if(response.StatusCode == System.Net.HttpStatusCode.OK)
             {

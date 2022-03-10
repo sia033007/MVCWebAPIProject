@@ -41,6 +41,10 @@ namespace MyMVCProject
 
 
             });
+            services.AddSession(options=> {
+
+                options.IdleTimeout = TimeSpan.FromMinutes(15);
+            });
             services.AddIdentity<MyUser, IdentityRole>(options=> {
 
                 options.Password.RequireLowercase = true;
@@ -85,10 +89,11 @@ namespace MyMVCProject
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseSession();
             app.UseAuthentication();
 
             app.UseAuthorization();

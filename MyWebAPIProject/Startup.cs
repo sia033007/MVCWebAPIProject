@@ -15,6 +15,8 @@ using MyWebAPIProject.Data;
 using MyWebAPIProject.Model;
 using Microsoft.EntityFrameworkCore;
 using MyWebAPIProject.Mapping;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace MyWebAPIProject
 {
@@ -36,6 +38,24 @@ namespace MyWebAPIProject
             services.AddScoped<IPlayerRepository, PlayerRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddAutoMapper(typeof(UserMapping));
+            services.AddAuthentication(options=> {
+
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options=> {
+
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.ASCII
+                    .GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
+                    ValidateLifetime = true,
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+
+                };
+            });
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -54,9 +74,10 @@ namespace MyWebAPIProject
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyWebAPIProject v1"));
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
